@@ -1,3 +1,4 @@
 import authRoute from './api/login';
+import contractRoute from './api/contract';
 
-export { authRoute };
+export { authRoute, contractRoute };
