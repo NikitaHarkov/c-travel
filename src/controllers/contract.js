@@ -5,7 +5,16 @@ import { ContractSchema } from '../models/Contract';
 const Contract = mongoose.model('contract', ContractSchema);
 
 export const getContracts = (req, res) => {
-  Contract.find()
+  let query = {};
+  if (req.body.data) {
+    query = {
+      $or: [
+        { contractNumber: { $regex: req.body.data, $options: 'i' } },
+        { fullName: { $regex: req.body.data, $options: 'i' } },
+      ],
+    };
+  }
+  Contract.find(query)
     .sort({ date: -1 })
     .then(results => res.json(results))
     .catch(err => {
