@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 import { validationResult } from 'express-validator';
 import { ContractSchema } from '../models/Contract';
-import e from 'express';
 
 const Contract = mongoose.model('contract', ContractSchema);
 
@@ -81,7 +80,7 @@ export const changeContract = (req, res) => {
       },
       (err, result) => {
         if (result) return res.status(200).json(result);
-        else if (err.king === 'ObjectId')
+        else if (err.kind === 'ObjectId')
           return res.status(404).json({ message: 'Contract not found' });
         else {
           console.error(err.message);
@@ -90,4 +89,16 @@ export const changeContract = (req, res) => {
       }
     );
   }
+};
+
+export const deleteContract = (req, res) => {
+  Contract.findByIdAndDelete({ _id: req.params.contractId }, (err, result) => {
+    if (result) return res.status(200).json({ message: 'Deleted' });
+    if (err.kind === 'ObjectId')
+      return res.status(404).json({ message: 'Contract not found' });
+    else {
+      console.error(err.message);
+      return res.status(500).json({ message: 'Server Error' });
+    }
+  });
 };

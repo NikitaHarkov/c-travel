@@ -4,6 +4,7 @@ import {
   getContracts,
   saveContract,
   changeContract,
+  deleteContract,
 } from '../../controllers/contract';
 import auth from '../../middleware/auth';
 
@@ -30,6 +31,7 @@ const contractRoute = app => {
   app
     .route('/contracts/:contractId')
     .get(auth, getContractById)
+    .delete(auth, deleteContract)
     .put(
       [
         auth,
