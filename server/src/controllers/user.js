@@ -37,10 +37,9 @@ export const login = (req, res) => {
           .json({ message: 'Authentication failed. Wrong password' });
       } else {
         return res.json({
-          token: jwt.sign(
-            { username: user.username, email: user.email, _id: user.id },
-            process.env.JWT_SECRET
-          ),
+          token: jwt.sign({ _id: user.id }, process.env.JWT_SECRET, {
+            expiresIn: '5d',
+          }),
         });
       }
     }
