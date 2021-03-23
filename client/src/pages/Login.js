@@ -1,36 +1,43 @@
-import React, { FC, useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useUserContext } from '../context/userContext';
 import styled from 'styled-components';
 import wave from '../assets/wave.png';
 import loginPicture from '../assets/login-picture.svg';
 import logo from '../assets/logo.png';
 
-const Login: FC = () => {
+const Login = () => {
   //TODO if verified jwt token => redirect to /contracts
+  const { login, loadUser } = useUserContext();
+
   const [formData, setFormData] = useState({
     username: '',
     password: '',
   });
   const { username, password } = formData;
 
-  const changeHadler = (e: React.FormEvent<HTMLInputElement>) => {
+  const changeHadler = e => {
     setFormData({ ...formData, [e.currentTarget.name]: e.currentTarget.value });
   };
-  const submitHandler = (e: React.FormEvent<HTMLButtonElement>) => {
+  const submitHandler = e => {
     e.preventDefault();
-    console.log(formData);
+    login(username, password);
   };
 
-  const focusHandler = (e: React.FormEvent) => {
-    const parent = e.currentTarget.parentNode?.parentNode as HTMLElement;
+  const focusHandler = e => {
+    const parent = e.currentTarget.parentNode?.parentNode;
     parent?.classList.add('focus');
   };
 
-  const blurHandler = (e: React.FormEvent<HTMLInputElement>) => {
+  const blurHandler = e => {
     if (e.currentTarget.value === '') {
-      const parent = e.currentTarget.parentNode?.parentNode as HTMLElement;
+      const parent = e.currentTarget.parentNode?.parentNode;
       parent?.classList.remove('focus');
     }
   };
+
+  useEffect(() => {
+    loadUser();
+  }, [loadUser]);
 
   return (
     <Wrapper>

@@ -1,15 +1,19 @@
 import express from 'express';
 import connectDB from './config/db';
 import dotenv from 'dotenv';
+import cors from 'cors';
+
 import { authRoute, contractRoute } from './routes';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
+app.use(cors());
 
 connectDB();
 
-app.use(express.json({ extented: false }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 authRoute(app);
 contractRoute(app);
