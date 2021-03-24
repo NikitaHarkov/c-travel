@@ -7,6 +7,7 @@ import {
   LOADING,
   LOGIN_FAIL,
   LOGIN_SUCCESS,
+  LOGOUT,
   USER_LOADED,
 } from '../utils/actions';
 
@@ -17,13 +18,13 @@ const initialState = {
   user: null,
 };
 
-export const UserContext = React.createContext();
-
 const config = {
   headers: {
     'Content-Type': 'application/json',
   },
 };
+
+export const UserContext = React.createContext();
 
 export const UserProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -32,10 +33,10 @@ export const UserProvider = ({ children }) => {
     if (localStorage.token) {
       setAuthToken(localStorage.token);
     }
-
     axios
       .get('/auth')
       .then(res => {
+        dispatch({ type: LOADING });
         dispatch({ type: USER_LOADED, payload: res.data });
       })
       .catch(() => dispatch({ type: AUTH_ERROR }));
@@ -53,8 +54,12 @@ export const UserProvider = ({ children }) => {
       .catch(() => dispatch({ type: LOGIN_FAIL }));
   };
 
+  const logout = () => {
+    dispatch({ type: LOGOUT });
+  };
+
   return (
-    <UserContext.Provider value={{ ...state, login, loadUser }}>
+    <UserContext.Provider value={{ ...state, login, loadUser, logout }}>
       {children}
     </UserContext.Provider>
   );

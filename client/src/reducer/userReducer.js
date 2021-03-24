@@ -4,6 +4,7 @@ import {
   USER_LOADED,
   AUTH_ERROR,
   LOGIN_FAIL,
+  LOGOUT,
 } from '../utils/actions';
 
 const user_reducer = (state, action) => {
@@ -24,11 +25,12 @@ const user_reducer = (state, action) => {
       return {
         ...state,
         token: payload.token,
-        isAuthenticated: true,
+        isAuthenticated: false,
         loading: false,
       };
     case LOGIN_FAIL:
     case AUTH_ERROR:
+    case LOGOUT:
       localStorage.removeItem('token');
       return {
         ...state,
