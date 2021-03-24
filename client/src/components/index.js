@@ -1,5 +1,6 @@
 import PrivateRoute from './PrivateRoute';
-import DrawerForm from './drawer-form/DrawerForm';
+import ContractsContent from './contracts/ContractsContent';
 import Footer from './Footer';
+import Table from './table/TableComponent';
 
-export { PrivateRoute, DrawerForm, Footer };
+export { PrivateRoute, ContractsContent, Footer, Table };

@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import './Contracts.css';
 import { Link } from 'react-router-dom';
-import { DrawerForm, Footer } from '../components';
-import { Layout, Button, Breadcrumb } from 'antd';
-import { useUserContext } from '../context/userContext';
+import { ContractsContent, Footer } from '../../components';
+import { Layout, Button } from 'antd';
+import { useUserContext } from '../../context/userContext';
 
 const Contracts = () => {
   const {
@@ -29,13 +29,11 @@ const Contracts = () => {
           </Button>
         </Header>
         <Content style={{ padding: '0 50px' }}>
-          <Breadcrumb style={{ margin: '16px 0' }} />
-          <DrawerForm
+          <ContractsContent
             isVisible={isVisible}
             showDrawer={showDrawer}
             closeDrawer={closeDrawer}
           />
-          <div className='site-layout-content'>Content</div>
         </Content>
         <Footer />
       </Layout>

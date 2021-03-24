@@ -2,11 +2,11 @@
 
 .site-layout-content {
   min-height: 80vh;
-  padding: 24px;
   background: #fff;
 }
+
 .contracts-logo {
-  content: url('../assets/logo.png');
+  content: url('../../assets/logo.png');
   float: left;
   width: 120px;
   height: 31px;
