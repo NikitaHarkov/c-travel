@@ -1,3 +1,4 @@
 import Login from './Login';
-
-export { Login };
+import Contracts from './Contracts';
+import Error from './Error';
+export { Login, Contracts, Error };

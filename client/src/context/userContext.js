@@ -1,12 +1,18 @@
-import React, { useContext, useReducer } from 'react';
+import React, { useContext, useReducer, useCallback } from 'react';
 import reducer from '../reducer/userReducer';
 import axios from 'axios';
 import setAuthToken from '../utils/auth-headers';
-import { LOADING, LOGIN_FAIL, LOGIN_SUCCESS } from '../utils/actions';
+import {
+  AUTH_ERROR,
+  LOADING,
+  LOGIN_FAIL,
+  LOGIN_SUCCESS,
+  USER_LOADED,
+} from '../utils/actions';
 
 const initialState = {
   token: localStorage.getItem('token'),
-  isAuthenticated: null,
+  isAuthenticated: false,
   loading: false,
   user: null,
 };
@@ -22,13 +28,18 @@ const config = {
 export const UserProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const loadUser = () => {
+  const loadUser = useCallback(() => {
     if (localStorage.token) {
       setAuthToken(localStorage.token);
     }
 
-    //TODO Get request to check JWT token for validity
-  };
+    axios
+      .get('/auth')
+      .then(res => {
+        dispatch({ type: USER_LOADED, payload: res.data });
+      })
+      .catch(() => dispatch({ type: AUTH_ERROR }));
+  }, []);
 
   const login = (username, password) => {
     const body = { username, password };
@@ -39,7 +50,7 @@ export const UserProvider = ({ children }) => {
         dispatch({ type: LOGIN_SUCCESS, payload: res.data });
         loadUser();
       })
-      .catch(err => dispatch({ type: LOGIN_FAIL }));
+      .catch(() => dispatch({ type: LOGIN_FAIL }));
   };
 
   return (

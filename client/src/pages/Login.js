@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useUserContext } from '../context/userContext';
+import { Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import wave from '../assets/wave.png';
 import loginPicture from '../assets/login-picture.svg';
 import logo from '../assets/logo.png';
 
 const Login = () => {
-  //TODO if verified jwt token => redirect to /contracts
-  const { login, loadUser } = useUserContext();
+  const { login, isAuthenticated } = useUserContext();
 
   const [formData, setFormData] = useState({
     username: '',
@@ -35,9 +35,7 @@ const Login = () => {
     }
   };
 
-  useEffect(() => {
-    loadUser();
-  }, [loadUser]);
+  if (isAuthenticated) return <Redirect to='/contracts' />;
 
   return (
     <Wrapper>
