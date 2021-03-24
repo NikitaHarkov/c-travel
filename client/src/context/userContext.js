@@ -1,4 +1,4 @@
-import React, { useContext, useReducer, useCallback } from 'react';
+import React, { useContext, useReducer } from 'react';
 import reducer from '../reducer/userReducer';
 import axios from 'axios';
 import setAuthToken from '../utils/auth-headers';
@@ -29,10 +29,11 @@ export const UserContext = React.createContext();
 export const UserProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const loadUser = useCallback(() => {
+  const loadUser = () => {
     if (localStorage.token) {
       setAuthToken(localStorage.token);
     }
+
     axios
       .get('/auth')
       .then(res => {
@@ -40,7 +41,7 @@ export const UserProvider = ({ children }) => {
         dispatch({ type: USER_LOADED, payload: res.data });
       })
       .catch(() => dispatch({ type: AUTH_ERROR }));
-  }, []);
+  };
 
   const login = (username, password) => {
     const body = { username, password };

@@ -7,10 +7,7 @@ import { Layout, Button } from 'antd';
 import { useUserContext } from '../../context/userContext';
 
 const Contracts = () => {
-  const {
-    user: { username },
-    logout,
-  } = useUserContext();
+  const { logout } = useUserContext();
   const [isVisible, setIsVisible] = useState(false);
 
   const showDrawer = () => setIsVisible(true);
@@ -25,7 +22,7 @@ const Contracts = () => {
             <div className='contracts-logo' />
           </Link>
           <Button type='primary' shape='round' size='large' onClick={logout}>
-            Logout
+            Выйти
           </Button>
         </Header>
         <Content style={{ padding: '0 50px' }}>

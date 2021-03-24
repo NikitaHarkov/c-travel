@@ -17,7 +17,7 @@ const DrawerForm = ({ isVisible, showDrawer, closeDrawer }) => {
   return (
     <>
       <Button type='primary' onClick={showDrawer}>
-        <PlusOutlined /> Add new contract
+        <PlusOutlined /> Добавить новый контракт
       </Button>
       <Drawer
         title='Add a new contract'

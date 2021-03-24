@@ -1,12 +1,13 @@
 import { Tooltip, Tag } from 'antd';
+import { formatDate } from '../../utils/formatDate';
 
 export const columns = [
   {
     title: 'Дата',
     dataIndex: 'date',
     key: 'date',
-    // render: text => <a>{text}</a>,
-    width: 150,
+    render: date => formatDate(date),
+    width: 120,
   },
   {
     title: 'Номер Договора',
@@ -18,7 +19,7 @@ export const columns = [
     title: 'Имя/Фамилия',
     dataIndex: 'fullName',
     key: 'fullName',
-    width: 140,
+    width: 160,
   },
   {
     title: 'Сумма €',
@@ -37,7 +38,13 @@ export const columns = [
     title: 'Срок действия',
     dataIndex: 'validity',
     key: 'validity',
-    width: 140,
+    render: validity => {
+      return validity
+        .split(',')
+        .map(date => formatDate(date))
+        .join('-');
+    },
+    width: 200,
   },
   {
     title: 'Телефон',

@@ -2,7 +2,7 @@ import React from 'react';
 import { Table } from 'antd';
 import { columns } from './tableStructure';
 
-const TableComponent = () => {
+const TableComponent = ({ contracts }) => {
   return (
     <Table
       onRow={(_, rowIndex) => {
@@ -12,7 +12,7 @@ const TableComponent = () => {
           },
         };
       }}
-      //  dataSource={data}
+      dataSource={contracts}
       columns={columns}
     />
   );
