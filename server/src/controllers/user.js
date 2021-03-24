@@ -5,25 +5,35 @@ import { UserSchema } from '../models/User';
 
 const User = mongoose.model('User', UserSchema);
 
-export const register = (req, res) => {
-  User.findOne({ username: req.body.username }, (err, user) => {
-    if (err) res.status(500).json({ message: `Server error` });
-    if (user) {
-      return res.status(400).json({ message: 'User already exists' });
-    }
-    if (!user) {
-      const newUser = new User(req.body);
-      newUser.hashPassword = bcrypt.hashSync(req.body.password, 10);
-      newUser.save((err, user) => {
-        if (err) res.status(500).json({ message: 'Server error' });
-        else {
-          user.hashPassword = undefined;
-          return res.json(user);
-        }
-      });
-    }
-  });
+export const getAuthUser = (req, res) => {
+  User.findByIdAndUpdate(req.user.id)
+    .select('-hashPassword')
+    .then(user => res.json(user))
+    .catch(err => {
+      console.log(err.message);
+      res.sendStatus(500);
+    });
 };
+
+// export const register = (req, res) => {
+//   User.findOne({ username: req.body.username }, (err, user) => {
+//     if (err) res.status(500).json({ message: `Server error` });
+//     if (user) {
+//       return res.status(400).json({ message: 'User already exists' });
+//     }
+//     if (!user) {
+//       const newUser = new User(req.body);
+//       newUser.hashPassword = bcrypt.hashSync(req.body.password, 10);
+//       newUser.save((err, user) => {
+//         if (err) res.status(500).json({ message: 'Server error' });
+//         else {
+//           user.hashPassword = undefined;
+//           return res.json(user);
+//         }
+//       });
+//     }
+//   });
+// };
 
 export const login = (req, res) => {
   User.findOne({ username: req.body.username }, (err, user) => {
@@ -37,13 +47,9 @@ export const login = (req, res) => {
           .json({ message: 'Authentication failed. Wrong password' });
       } else {
         return res.json({
-          token: jwt.sign(
-            { _id: user.id, username: user.username },
-            process.env.JWT_SECRET,
-            {
-              expiresIn: '5d',
-            }
-          ),
+          token: jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+            expiresIn: '5d',
+          }),
         });
       }
     }
