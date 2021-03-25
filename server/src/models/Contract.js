@@ -20,16 +20,9 @@ export const ContractSchema = new Schema({
     required: true,
   },
   validity: {
-    startDate: {
-      type: Date,
-      required: true,
-    },
-    endDate: {
-      type: Date,
-      required: true,
-    },
+    type: Date,
+    required: true,
   },
-
   phone: {
     type: String,
     required: true,

@@ -38,13 +38,8 @@ export const columns = [
     title: 'Срок действия',
     dataIndex: 'validity',
     key: 'validity',
-    render: validity => {
-      return validity
-        .split(',')
-        .map(date => formatDate(date))
-        .join('-');
-    },
-    width: 200,
+    render: validity => formatDate(validity),
+    width: 150,
   },
   {
     title: 'Телефон',

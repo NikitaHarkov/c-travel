@@ -28,16 +28,12 @@ export const saveContract = (req, res) => {
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   } else {
-    const { startDate, endDate } = req.body.validity;
     const newContract = new Contract({
       date: req.body.date,
       contractNumber: req.body.contractNumber,
       fullName: req.body.fullName,
       summ: req.body.summ,
-      validity: {
-        startDate,
-        endDate,
-      },
+      validity: req.body.validity,
       phone: req.body.phone,
       email: req.body.email,
       comment: req.body.comment,
@@ -71,7 +67,6 @@ export const changeContract = (req, res) => {
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   } else {
-    const { startDate, endDate } = req.body.validity;
     Contract.findByIdAndUpdate(
       { _id: req.params.contractId },
       {
@@ -79,10 +74,7 @@ export const changeContract = (req, res) => {
         contractNumber: req.body.contractNumber,
         fullName: req.body.fullName,
         summ: req.body.summ,
-        validity: {
-          startDate,
-          endDate,
-        },
+        validity: req.body.validity,
         phone: req.body.phone,
         email: req.body.email,
         comment: req.body.comment,

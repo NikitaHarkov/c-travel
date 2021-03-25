@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Drawer,
   Form,
@@ -10,9 +10,34 @@ import {
   DatePicker,
 } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
+import { useContractContext } from '../../context/contractContext';
 
 const DrawerForm = ({ isVisible, showDrawer, closeDrawer }) => {
+  const { singleContract } = useContractContext();
   const { Option } = Select;
+
+  const [formData, setFormData] = useState({
+    date: '',
+    contractNumber: '',
+    fullname: '',
+    summ: '',
+    validity: { startDate: '', endDate: '' },
+    phone: '',
+    email: '',
+    comment: '',
+  });
+
+  const submitHandler = e => {
+    e.preventDefault();
+    console.log(e);
+  };
+
+  useEffect(() => {
+    if (singleContract) {
+      showDrawer();
+    }
+    //eslint-disable-next-line
+  }, [singleContract]);
 
   return (
     <>
@@ -20,7 +45,7 @@ const DrawerForm = ({ isVisible, showDrawer, closeDrawer }) => {
         <PlusOutlined /> Добавить новый контракт
       </Button>
       <Drawer
-        title='Add a new contract'
+        title='Добавить новый контракт'
         width={720}
         onClose={closeDrawer}
         visible={isVisible}
@@ -32,10 +57,10 @@ const DrawerForm = ({ isVisible, showDrawer, closeDrawer }) => {
             }}
           >
             <Button onClick={closeDrawer} style={{ marginRight: 8 }}>
-              Cancel
+              Отменить
             </Button>
-            <Button onClick={closeDrawer} type='primary'>
-              Submit
+            <Button onClick={submitHandler} type='primary'>
+              Сохранить
             </Button>
           </div>
         }

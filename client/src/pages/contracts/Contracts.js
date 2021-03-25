@@ -5,13 +5,18 @@ import { Link } from 'react-router-dom';
 import { ContractsContent, Footer } from '../../components';
 import { Layout, Button } from 'antd';
 import { useUserContext } from '../../context/userContext';
+import { useContractContext } from '../../context/contractContext';
 
 const Contracts = () => {
   const { logout } = useUserContext();
+  const { clearContractState } = useContractContext();
   const [isVisible, setIsVisible] = useState(false);
 
   const showDrawer = () => setIsVisible(true);
-  const closeDrawer = () => setIsVisible(false);
+  const closeDrawer = () => {
+    clearContractState();
+    setIsVisible(false);
+  };
 
   const { Header, Content } = Layout;
   return (
