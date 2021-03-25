@@ -21,7 +21,7 @@ const ContractsContent = ({ isVisible, showDrawer, closeDrawer }) => {
   useEffect(() => {
     fetchContracts();
     //eslint-disable-next-line
-  }, []);
+  }, [loading]);
 
   if (loading) {
     return <Loading className='site-layout-content' />;

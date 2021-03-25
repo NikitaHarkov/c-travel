@@ -18,12 +18,6 @@ const initialState = {
   user: null,
 };
 
-const config = {
-  headers: {
-    'Content-Type': 'application/json',
-  },
-};
-
 export const UserContext = React.createContext();
 
 export const UserProvider = ({ children }) => {
@@ -47,7 +41,7 @@ export const UserProvider = ({ children }) => {
     const body = { username, password };
     dispatch({ type: LOADING });
     axios
-      .post('/login', body, config)
+      .post('/login', body)
       .then(res => {
         dispatch({ type: LOGIN_SUCCESS, payload: res.data });
         loadUser();

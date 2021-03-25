@@ -7,6 +7,9 @@ import {
   LOAD_ERROR,
   PRELOAD_CONTRACT,
   CLEAR_CONTRACT_STATE,
+  SET_CONTRACT,
+  CREATE_CONTRACT,
+  LOGOUT,
 } from '../utils/actions';
 
 const ContractContext = React.createContext();
@@ -35,14 +38,29 @@ export const ContractProvider = ({ children }) => {
     //TODO query contracts
   };
 
+  const setSingleContract = contract => {
+    dispatch({ type: SET_CONTRACT, payload: contract });
+  };
+
   const getSingleContract = id => {
     axios
       .get(`/contracts/${id}`)
-      .then(result => {
-        dispatch({ type: PRELOAD_CONTRACT });
-        dispatch({ type: LOAD_SINGLE_CONTRACT, payload: result.data });
-      })
+      .then(dispatch({ type: PRELOAD_CONTRACT }))
+      .then(result =>
+        dispatch({ type: LOAD_SINGLE_CONTRACT, payload: result.data })
+      )
       .catch(() => dispatch({ type: LOAD_ERROR }));
+  };
+
+  const createContract = form => {
+    axios
+      .post('/contracts', form)
+      .then(res => dispatch({ type: CREATE_CONTRACT, payload: res.data }))
+      .catch(err => console.log(err));
+  };
+
+  const clearContractStateByLogout = () => {
+    dispatch({ type: LOGOUT });
   };
 
   const clearContractState = () => {
@@ -57,6 +75,9 @@ export const ContractProvider = ({ children }) => {
         queryContracts,
         getSingleContract,
         clearContractState,
+        setSingleContract,
+        createContract,
+        clearContractStateByLogout,
       }}
     >
       {children}

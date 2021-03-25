@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import './Contracts.css';
 import { Link } from 'react-router-dom';
@@ -9,8 +9,16 @@ import { useContractContext } from '../../context/contractContext';
 
 const Contracts = () => {
   const { logout } = useUserContext();
-  const { clearContractState } = useContractContext();
+  const {
+    clearContractState,
+    clearContractStateByLogout,
+  } = useContractContext();
   const [isVisible, setIsVisible] = useState(false);
+
+  const logoutAndClear = () => {
+    clearContractStateByLogout();
+    logout();
+  };
 
   const showDrawer = () => setIsVisible(true);
   const closeDrawer = () => {
@@ -27,7 +35,12 @@ const Contracts = () => {
             <div className='contracts-logo' />
           </Link>
           <div style={{ marginTop: 10 }}>
-            <Button type='primary' shape='round' size='large' onClick={logout}>
+            <Button
+              type='primary'
+              shape='round'
+              size='large'
+              onClick={logoutAndClear}
+            >
               Выйти
             </Button>
           </div>

@@ -4,14 +4,14 @@ import { columns } from './tableStructure';
 import { useContractContext } from '../../context/contractContext';
 
 const TableComponent = ({ contracts }) => {
-  const { getSingleContract } = useContractContext();
+  const { setSingleContract } = useContractContext();
 
   return (
     <Table
       onRow={rowData => {
         return {
           onClick: () => {
-            getSingleContract(rowData.key);
+            setSingleContract(rowData);
           },
         };
       }}

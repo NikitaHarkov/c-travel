@@ -1,53 +1,66 @@
-import React, { useEffect, useState } from 'react';
-import {
-  Drawer,
-  Form,
-  Button,
-  Col,
-  Row,
-  Input,
-  Select,
-  DatePicker,
-} from 'antd';
+import React, { useState } from 'react';
+import { Drawer, Form, Button, Col, Row, Input, DatePicker } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { useContractContext } from '../../context/contractContext';
 
 const DrawerForm = ({ isVisible, showDrawer, closeDrawer }) => {
-  const { singleContract } = useContractContext();
-  const { Option } = Select;
+  const { singleContract, createContract } = useContractContext();
 
   const [formData, setFormData] = useState({
     date: '',
     contractNumber: '',
-    fullname: '',
-    summ: '',
-    validity: { startDate: '', endDate: '' },
+    fullName: '',
+    summ: 0,
+    validity: '',
     phone: '',
     email: '',
     comment: '',
   });
 
-  const submitHandler = e => {
-    e.preventDefault();
-    console.log(e);
+  const {
+    date,
+    contractNumber,
+    fullName,
+    summ,
+    validity,
+    phone,
+    email,
+    comment,
+  } = formData;
+
+  const clearState = () => {
+    // const tempState = {};
+    // Object.keys(formData).forEach(key => {
+    //   Object.assign(tempState, { ...tempState, [key]: '' });
+    // });
+    // setFormData(tempState);
+    closeDrawer();
   };
 
-  useEffect(() => {
-    if (singleContract) {
-      showDrawer();
+  const changeHandler = (e, dateInput = '') => {
+    if (e.target) {
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+    } else {
+      setFormData({ ...formData, [dateInput]: e._d });
     }
-    //eslint-disable-next-line
-  }, [singleContract]);
+  };
+
+  const submitHandler = e => {
+    e.preventDefault();
+    createContract(formData);
+    closeDrawer();
+  };
 
   return (
     <>
       <Button type='primary' onClick={showDrawer}>
-        <PlusOutlined /> Добавить новый контракт
+        <PlusOutlined /> {singleContract ? 'Изменить' : 'Добавить'} новый
+        контракт
       </Button>
       <Drawer
         title='Добавить новый контракт'
         width={720}
-        onClose={closeDrawer}
+        onClose={clearState}
         visible={isVisible}
         bodyStyle={{ paddingBottom: 80 }}
         footer={
@@ -56,7 +69,7 @@ const DrawerForm = ({ isVisible, showDrawer, closeDrawer }) => {
               textAlign: 'right',
             }}
           >
-            <Button onClick={closeDrawer} style={{ marginRight: 8 }}>
+            <Button onClick={clearState} style={{ marginRight: 8 }}>
               Отменить
             </Button>
             <Button onClick={submitHandler} type='primary'>
@@ -68,100 +81,103 @@ const DrawerForm = ({ isVisible, showDrawer, closeDrawer }) => {
         <Form layout='vertical' hideRequiredMark>
           <Row gutter={16}>
             <Col span={12}>
-              <Form.Item
-                name='name'
-                label='Name'
-                rules={[{ required: true, message: 'Please enter user name' }]}
-              >
-                <Input placeholder='Please enter user name' />
+              <Form.Item name='fullName' label='Имя'>
+                <Input
+                  value={fullName}
+                  name='fullName'
+                  onChange={changeHandler}
+                  placeholder='Введите имя'
+                />
               </Form.Item>
             </Col>
             <Col span={12}>
-              <Form.Item
-                name='url'
-                label='Url'
-                rules={[{ required: true, message: 'Please enter url' }]}
-              >
-                <Input
+              <Form.Item name='date' label='Дата заключения'>
+                <DatePicker
+                  locale='locale'
                   style={{ width: '100%' }}
-                  addonBefore='http://'
-                  addonAfter='.com'
-                  placeholder='Please enter url'
+                  name='date'
+                  value={date}
+                  onChange={e => changeHandler(e, 'date')}
+                  placeholder='Выберите дату'
                 />
               </Form.Item>
             </Col>
           </Row>
           <Row gutter={16}>
             <Col span={12}>
-              <Form.Item
-                name='owner'
-                label='Owner'
-                rules={[{ required: true, message: 'Please select an owner' }]}
-              >
-                <Select placeholder='Please select an owner'>
-                  <Option value='xiao'>Xiaoxiao Fu</Option>
-                  <Option value='mao'>Maomao Zhou</Option>
-                </Select>
+              <Form.Item name='contractNumber' label='Номер договора'>
+                <Input
+                  name='contractNumber'
+                  value={contractNumber}
+                  onChange={changeHandler}
+                  placeholder='Введите номер договора'
+                />
               </Form.Item>
             </Col>
             <Col span={12}>
-              <Form.Item
-                name='type'
-                label='Type'
-                rules={[{ required: true, message: 'Please choose the type' }]}
-              >
-                <Select placeholder='Please choose the type'>
-                  <Option value='private'>Private</Option>
-                  <Option value='public'>Public</Option>
-                </Select>
+              <Form.Item name='summ' label='Сумма'>
+                <Input
+                  style={{ width: '100%', margin: 0 }}
+                  type='number'
+                  addonAfter='€'
+                  name='summ'
+                  value={summ}
+                  onChange={changeHandler}
+                  placeholder='Введите сумму'
+                />
               </Form.Item>
             </Col>
           </Row>
           <Row gutter={16}>
             <Col span={12}>
-              <Form.Item
-                name='approver'
-                label='Approver'
-                rules={[
-                  { required: true, message: 'Please choose the approver' },
-                ]}
-              >
-                <Select placeholder='Please choose the approver'>
-                  <Option value='jack'>Jack Ma</Option>
-                  <Option value='tom'>Tom Liu</Option>
-                </Select>
+              <Form.Item name='phone' label='Телефон'>
+                <Input
+                  style={{ width: '100%', margin: 0 }}
+                  addonBefore='+372'
+                  name='phone'
+                  value={phone}
+                  onChange={changeHandler}
+                  placeholder='Введите телефон'
+                />
               </Form.Item>
             </Col>
             <Col span={12}>
-              <Form.Item
-                name='dateTime'
-                label='DateTime'
-                rules={[
-                  { required: true, message: 'Please choose the dateTime' },
-                ]}
-              >
-                <DatePicker.RangePicker
+              <Form.Item name='validity' label='Дата окончания'>
+                <DatePicker
                   style={{ width: '100%' }}
-                  getPopupContainer={trigger => trigger.parentElement}
+                  name='validity'
+                  value={validity}
+                  onChange={e => changeHandler(e, 'validity')}
+                  placeholder='Выберите дату'
+                />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item name='email' label='Email'>
+                <Input
+                  style={{ width: '100%', margin: 0 }}
+                  addonBefore='@'
+                  type='email'
+                  name='email'
+                  value={email}
+                  onChange={changeHandler}
+                  placeholder='example@example.ee'
+                  required
                 />
               </Form.Item>
             </Col>
           </Row>
           <Row gutter={16}>
             <Col span={24}>
-              <Form.Item
-                name='description'
-                label='Description'
-                rules={[
-                  {
-                    required: true,
-                    message: 'please enter url description',
-                  },
-                ]}
-              >
+              <Form.Item name='comment' label='Комментарий'>
                 <Input.TextArea
                   rows={4}
-                  placeholder='please enter url description'
+                  name='comment'
+                  value={comment}
+                  onChange={changeHandler}
+                  placeholder='Введите комментарий'
                 />
               </Form.Item>
             </Col>
