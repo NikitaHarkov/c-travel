@@ -6,11 +6,11 @@ const Contract = mongoose.model('contract', ContractSchema);
 
 export const getContracts = (req, res) => {
   let query = {};
-  if (req.body.data) {
+  if (req.query.data) {
     query = {
       $or: [
-        { contractNumber: { $regex: req.body.data, $options: 'i' } },
-        { fullName: { $regex: req.body.data, $options: 'i' } },
+        { contractNumber: { $regex: req.query.data, $options: 'i' } },
+        { fullName: { $regex: req.query.data, $options: 'i' } },
       ],
     };
   }

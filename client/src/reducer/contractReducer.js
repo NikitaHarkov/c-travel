@@ -28,7 +28,6 @@ const contract_reducer = (state, action) => {
       return { ...state, singleContract, loading: false };
     case CREATE_CONTRACT:
       singleContract = parseResponse(payload);
-      console.log(singleContract);
       return {
         ...state,
         contracts: { singleContract, ...state.contracts },

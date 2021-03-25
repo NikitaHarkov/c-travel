@@ -31,8 +31,13 @@ export const ContractProvider = ({ children }) => {
   };
 
   const queryContracts = query => {
-    if (query.isEmpty()) {
+    if (query === '') {
       fetchContracts();
+    } else {
+      axios
+        .get(`/contracts`, { params: { data: query } })
+        .then(res => dispatch({ type: LOAD_CONTRACTS, payload: res.data }))
+        .catch(err => console.log(err));
     }
 
     //TODO query contracts

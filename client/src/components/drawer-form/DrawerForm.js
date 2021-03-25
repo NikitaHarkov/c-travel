@@ -29,11 +29,6 @@ const DrawerForm = ({ isVisible, showDrawer, closeDrawer }) => {
   } = formData;
 
   const clearState = () => {
-    // const tempState = {};
-    // Object.keys(formData).forEach(key => {
-    //   Object.assign(tempState, { ...tempState, [key]: '' });
-    // });
-    // setFormData(tempState);
     closeDrawer();
   };
 
