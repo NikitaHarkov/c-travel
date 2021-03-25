@@ -22,13 +22,18 @@
   float: left;
 }
 
+.ant-input-group-wrapper {
+  margin-top: 0.5rem;
+  display: flex;
+  width: 20%;
+}
+
 .ant-btn-round.ant-btn-lg > span {
   text-transform: uppercase;
 }
 
 .ant-btn {
   float: inline-end;
-  margin-top: 0.7rem;
 }
 
 [data-theme='dark'] .site-layout-content {

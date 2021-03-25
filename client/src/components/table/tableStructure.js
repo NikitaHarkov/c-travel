@@ -1,5 +1,5 @@
 import { Tooltip, Tag } from 'antd';
-import { formatDate } from '../../utils/formatDate';
+import { formatDate, formatPrice } from '../../utils/helpers';
 
 export const columns = [
   {
@@ -28,7 +28,7 @@ export const columns = [
     render: summ => {
       return (
         <span>
-          <Tag color={'geekblue'}>{summ} €</Tag>
+          <Tag color={'geekblue'}>{formatPrice(summ)}</Tag>
         </span>
       );
     },

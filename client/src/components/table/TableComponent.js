@@ -5,10 +5,10 @@ import { columns } from './tableStructure';
 const TableComponent = ({ contracts }) => {
   return (
     <Table
-      onRow={(_, rowIndex) => {
+      onRow={rowData => {
         return {
           onClick: () => {
-            console.log(rowIndex);
+            console.log(rowData.key);
           },
         };
       }}

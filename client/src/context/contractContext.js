@@ -20,8 +20,18 @@ export const ContractProvider = ({ children }) => {
       .catch(err => console.log(err));
   };
 
+  const queryContracts = query => {
+    if (query.isEmpty()) {
+      fetchContracts();
+    }
+
+    //TODO query contracts
+  };
+
   return (
-    <ContractContext.Provider value={{ ...state, fetchContracts }}>
+    <ContractContext.Provider
+      value={{ ...state, fetchContracts, queryContracts }}
+    >
       {children}
     </ContractContext.Provider>
   );

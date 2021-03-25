@@ -21,9 +21,11 @@ const Contracts = () => {
           <Link to='/contracts'>
             <div className='contracts-logo' />
           </Link>
-          <Button type='primary' shape='round' size='large' onClick={logout}>
-            Выйти
-          </Button>
+          <div style={{ marginTop: 10 }}>
+            <Button type='primary' shape='round' size='large' onClick={logout}>
+              Выйти
+            </Button>
+          </div>
         </Header>
         <Content style={{ padding: '0 50px' }}>
           <ContractsContent

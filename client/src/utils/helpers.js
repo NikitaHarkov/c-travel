@@ -5,3 +5,10 @@ export const formatDate = date => {
     day: '2-digit',
   }).format(new Date(date));
 };
+
+export const formatPrice = number => {
+  return new Intl.NumberFormat('et-EE', {
+    style: 'currency',
+    currency: 'EUR',
+  }).format(number);
+};
