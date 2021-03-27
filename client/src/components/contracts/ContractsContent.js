@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Input } from 'antd';
 import DrawerForm from '../drawer-form/DrawerForm';
 import { useContractContext } from '../../context/contractContext';
@@ -11,8 +11,21 @@ const ContractsContent = ({ isVisible, showDrawer, closeDrawer }) => {
     loading,
     fetchContracts,
     queryContracts,
+    singleContract,
   } = useContractContext();
   const { Search } = Input;
+
+  const [formData, setFormData] = useState({
+    id: '',
+    date: '',
+    contractNumber: '',
+    fullName: '',
+    summ: 0,
+    validity: '',
+    phone: '',
+    email: '',
+    comment: '',
+  });
 
   const searchHandler = query => {
     queryContracts(query);
@@ -22,6 +35,24 @@ const ContractsContent = ({ isVisible, showDrawer, closeDrawer }) => {
     fetchContracts();
     //eslint-disable-next-line
   }, [loading]);
+
+  useEffect(() => {
+    if (singleContract !== null) {
+      setFormData({
+        id: singleContract.key,
+        date: singleContract.date,
+        contractNumber: singleContract.contractNumber,
+        fullName: singleContract.fullName,
+        summ: singleContract.summ,
+        validity: singleContract.validity,
+        phone: singleContract.phone,
+        email: singleContract.email,
+        comment: singleContract.comment,
+      });
+      showDrawer();
+    }
+    //eslint-disable-next-line
+  }, [singleContract]);
 
   if (loading) {
     return <Loading className='site-layout-content' />;
@@ -41,6 +72,8 @@ const ContractsContent = ({ isVisible, showDrawer, closeDrawer }) => {
         isVisible={isVisible}
         showDrawer={showDrawer}
         closeDrawer={closeDrawer}
+        formData={formData}
+        setFormData={setFormData}
       />
       <Table contracts={contracts} />
     </>

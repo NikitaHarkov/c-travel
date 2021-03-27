@@ -7,6 +7,7 @@ import {
   SET_CONTRACT,
   LOGOUT,
   CREATE_CONTRACT,
+  UPDATE_CONTRACT,
 } from '../utils/actions';
 import { renameProp } from '../utils/helpers';
 
@@ -27,10 +28,9 @@ const contract_reducer = (state, action) => {
       singleContract = parseResponse(payload);
       return { ...state, singleContract, loading: false };
     case CREATE_CONTRACT:
-      singleContract = parseResponse(payload);
+    case UPDATE_CONTRACT:
       return {
         ...state,
-        contracts: { singleContract, ...state.contracts },
         loading: true,
       };
     case LOAD_ERROR:

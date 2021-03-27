@@ -1,23 +1,24 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Drawer, Form, Button, Col, Row, Input, DatePicker } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { useContractContext } from '../../context/contractContext';
+import { formatDate } from '../../utils/helpers';
 
-const DrawerForm = ({ isVisible, showDrawer, closeDrawer }) => {
-  const { singleContract, createContract } = useContractContext();
-
-  const [formData, setFormData] = useState({
-    date: '',
-    contractNumber: '',
-    fullName: '',
-    summ: 0,
-    validity: '',
-    phone: '',
-    email: '',
-    comment: '',
-  });
+const DrawerForm = ({
+  isVisible,
+  showDrawer,
+  closeDrawer,
+  formData,
+  setFormData,
+}) => {
+  const {
+    singleContract,
+    createContract,
+    updateContract,
+  } = useContractContext();
 
   const {
+    id,
     date,
     contractNumber,
     fullName,
@@ -28,145 +29,158 @@ const DrawerForm = ({ isVisible, showDrawer, closeDrawer }) => {
     comment,
   } = formData;
 
-  const clearState = () => {
+  const clearForm = () => {
+    let setAll = (obj, val) => Object.keys(obj).forEach(k => (obj[k] = val));
+    let setEmpty = obj => setAll(obj, '');
+    setEmpty(formData);
     closeDrawer();
   };
 
   const changeHandler = (e, dateInput = '') => {
-    if (e.target) {
-      setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (dateInput !== '') {
+      setFormData({ ...formData, [dateInput]: e.target.valueAsDate });
     } else {
-      setFormData({ ...formData, [dateInput]: e._d });
+      setFormData({ ...formData, [e.target.name]: e.target.value });
     }
   };
 
   const submitHandler = e => {
-    e.preventDefault();
-    createContract(formData);
-    closeDrawer();
+    if (id !== '') {
+      updateContract(formData);
+    } else {
+      createContract(formData);
+    }
+    //TODO if no errors closeDrawer();
   };
 
   return (
     <>
       <Button type='primary' onClick={showDrawer}>
-        <PlusOutlined /> {singleContract ? 'Изменить' : 'Добавить'} новый
-        контракт
+        <PlusOutlined /> Добавить новый контракт
       </Button>
       <Drawer
-        title='Добавить новый контракт'
+        title={`${singleContract ? 'Изменить' : 'Добавить новый'} контракт`}
         width={720}
-        onClose={clearState}
+        onClose={clearForm}
         visible={isVisible}
         bodyStyle={{ paddingBottom: 80 }}
-        footer={
-          <div
-            style={{
-              textAlign: 'right',
-            }}
-          >
-            <Button onClick={clearState} style={{ marginRight: 8 }}>
-              Отменить
-            </Button>
-            <Button onClick={submitHandler} type='primary'>
-              Сохранить
-            </Button>
-          </div>
-        }
       >
-        <Form layout='vertical' hideRequiredMark>
+        <Form layout='vertical' onFinish={submitHandler}>
           <Row gutter={16}>
             <Col span={12}>
-              <Form.Item name='fullName' label='Имя'>
-                <Input
-                  value={fullName}
+              <div className='col-md-12'>
+                <label name='fullName' className='form-label'>
+                  Имя
+                </label>
+                <input
+                  className='form-control'
                   name='fullName'
+                  value={fullName}
                   onChange={changeHandler}
                   placeholder='Введите имя'
                 />
-              </Form.Item>
+              </div>
             </Col>
             <Col span={12}>
-              <Form.Item name='date' label='Дата заключения'>
-                <DatePicker
-                  locale='locale'
-                  style={{ width: '100%' }}
+              <div className='col-md-12'>
+                <label name='date' className='form-label'>
+                  Дата заключения
+                </label>
+                <input
+                  className='form-control'
+                  type='date'
                   name='date'
                   value={date}
                   onChange={e => changeHandler(e, 'date')}
-                  placeholder='Выберите дату'
                 />
-              </Form.Item>
+              </div>
             </Col>
           </Row>
           <Row gutter={16}>
             <Col span={12}>
-              <Form.Item name='contractNumber' label='Номер договора'>
-                <Input
+              <div className='col-md-12'>
+                <label name='contractNumber' className='form-label'>
+                  Номер договора
+                </label>
+                <input
+                  className='form-control'
                   name='contractNumber'
                   value={contractNumber}
                   onChange={changeHandler}
                   placeholder='Введите номер договора'
                 />
-              </Form.Item>
+              </div>
             </Col>
             <Col span={12}>
-              <Form.Item name='summ' label='Сумма'>
-                <Input
-                  style={{ width: '100%', margin: 0 }}
+              <div className='col-md-12'>
+                <label name='summ' className='form-label'>
+                  Сумма
+                </label>
+                <input
+                  className='form-control'
                   type='number'
-                  addonAfter='€'
                   name='summ'
                   value={summ}
                   onChange={changeHandler}
                   placeholder='Введите сумму'
                 />
-              </Form.Item>
+              </div>
             </Col>
           </Row>
           <Row gutter={16}>
             <Col span={12}>
-              <Form.Item name='phone' label='Телефон'>
-                <Input
-                  style={{ width: '100%', margin: 0 }}
-                  addonBefore='+372'
+              <div className='col-md-12'>
+                <label name='phone' className='form-label'>
+                  Телефон
+                </label>
+                <input
+                  className='form-control'
                   name='phone'
                   value={phone}
                   onChange={changeHandler}
                   placeholder='Введите телефон'
                 />
-              </Form.Item>
+              </div>
             </Col>
             <Col span={12}>
-              <Form.Item name='validity' label='Дата окончания'>
-                <DatePicker
-                  style={{ width: '100%' }}
+              <div className='col-md-12'>
+                <label name='date' className='form-label'>
+                  Дата окончания
+                </label>
+                <input
+                  type='date'
+                  className='form-control'
                   name='validity'
                   value={validity}
                   onChange={e => changeHandler(e, 'validity')}
                   placeholder='Выберите дату'
                 />
-              </Form.Item>
-            </Col>
-          </Row>
-          <Row gutter={16}>
-            <Col span={12}>
-              <Form.Item name='email' label='Email'>
-                <Input
-                  style={{ width: '100%', margin: 0 }}
-                  addonBefore='@'
-                  type='email'
-                  name='email'
-                  value={email}
-                  onChange={changeHandler}
-                  placeholder='example@example.ee'
-                  required
-                />
-              </Form.Item>
+              </div>
             </Col>
           </Row>
           <Row gutter={16}>
             <Col span={24}>
-              <Form.Item name='comment' label='Комментарий'>
+              <div className='col-md-12'>
+                <label name='email' className='form-label'>
+                  Email
+                </label>
+                <input
+                  type='email'
+                  className='form-control'
+                  name='email'
+                  value={email}
+                  onChange={changeHandler}
+                  placeholder='example@example.ee'
+                />
+              </div>
+            </Col>
+          </Row>
+          <Row gutter={16}>
+            <Col span={24}>
+              <div className='col-md-12'>
+                <label name='comment' className='form-label'>
+                  Комментарий
+                </label>
                 <Input.TextArea
                   rows={4}
                   name='comment'
@@ -174,9 +188,15 @@ const DrawerForm = ({ isVisible, showDrawer, closeDrawer }) => {
                   onChange={changeHandler}
                   placeholder='Введите комментарий'
                 />
-              </Form.Item>
+              </div>
             </Col>
           </Row>
+          <Button onClick={clearForm} style={{ marginRight: 8 }}>
+            Отменить
+          </Button>
+          <Button type='primary' htmlType='submit'>
+            Сохранить
+          </Button>
         </Form>
       </Drawer>
     </>

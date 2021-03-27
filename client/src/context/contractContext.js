@@ -9,6 +9,7 @@ import {
   CLEAR_CONTRACT_STATE,
   SET_CONTRACT,
   CREATE_CONTRACT,
+  UPDATE_CONTRACT,
   LOGOUT,
 } from '../utils/actions';
 
@@ -39,8 +40,6 @@ export const ContractProvider = ({ children }) => {
         .then(res => dispatch({ type: LOAD_CONTRACTS, payload: res.data }))
         .catch(err => console.log(err));
     }
-
-    //TODO query contracts
   };
 
   const setSingleContract = contract => {
@@ -60,7 +59,14 @@ export const ContractProvider = ({ children }) => {
   const createContract = form => {
     axios
       .post('/contracts', form)
-      .then(res => dispatch({ type: CREATE_CONTRACT, payload: res.data }))
+      .then(res => dispatch({ type: CREATE_CONTRACT }))
+      .catch(err => console.log(err));
+  };
+
+  const updateContract = form => {
+    axios
+      .put(`/contracts/${form.id}`, form)
+      .then(dispatch({ type: UPDATE_CONTRACT }))
       .catch(err => console.log(err));
   };
 
@@ -83,6 +89,7 @@ export const ContractProvider = ({ children }) => {
         setSingleContract,
         createContract,
         clearContractStateByLogout,
+        updateContract,
       }}
     >
       {children}
