@@ -46,7 +46,9 @@ export const UserProvider = ({ children }) => {
         dispatch({ type: LOGIN_SUCCESS, payload: res.data });
         loadUser();
       })
-      .catch(() => dispatch({ type: LOGIN_FAIL }));
+      .catch(err => {
+        dispatch({ type: LOGIN_FAIL });
+      });
   };
 
   const logout = () => {

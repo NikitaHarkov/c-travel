@@ -10,6 +10,8 @@ import {
   SET_CONTRACT,
   CREATE_CONTRACT,
   UPDATE_CONTRACT,
+  SET_ERRORS,
+  REMOVE_ERRORS,
   LOGOUT,
 } from '../utils/actions';
 
@@ -19,16 +21,25 @@ const initialState = {
   contracts: [],
   loading: true,
   singleContract: null,
+  errors: [],
 };
 
 export const ContractProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  const setErrors = errors => {
+    dispatch({ type: SET_ERRORS, payload: errors.response.data });
+    setTimeout(() => dispatch({ type: REMOVE_ERRORS }), 4000);
+  };
+
   const fetchContracts = () => {
     axios
       .get('/contracts')
       .then(res => dispatch({ type: LOAD_CONTRACTS, payload: res.data }))
-      .catch(() => dispatch({ type: LOAD_ERROR }));
+      .catch(err => {
+        dispatch({ type: LOAD_ERROR });
+        setErrors(err);
+      });
   };
 
   const queryContracts = query => {
@@ -38,7 +49,7 @@ export const ContractProvider = ({ children }) => {
       axios
         .get(`/contracts`, { params: { data: query } })
         .then(res => dispatch({ type: LOAD_CONTRACTS, payload: res.data }))
-        .catch(err => console.log(err));
+        .catch(err => setErrors(err));
     }
   };
 
@@ -53,21 +64,24 @@ export const ContractProvider = ({ children }) => {
       .then(result =>
         dispatch({ type: LOAD_SINGLE_CONTRACT, payload: result.data })
       )
-      .catch(() => dispatch({ type: LOAD_ERROR }));
+      .catch(err => {
+        dispatch({ type: LOAD_ERROR });
+        setErrors(err);
+      });
   };
 
   const createContract = form => {
     axios
       .post('/contracts', form)
-      .then(res => dispatch({ type: CREATE_CONTRACT }))
-      .catch(err => console.log(err));
+      .then(res => dispatch({ type: CREATE_CONTRACT, payload: res }))
+      .catch(errors => setErrors(errors));
   };
 
   const updateContract = form => {
     axios
       .put(`/contracts/${form.id}`, form)
-      .then(dispatch({ type: UPDATE_CONTRACT }))
-      .catch(err => console.log(err));
+      .then(res => dispatch({ type: UPDATE_CONTRACT, payload: res }))
+      .catch(err => setErrors(err));
   };
 
   const clearContractStateByLogout = () => {

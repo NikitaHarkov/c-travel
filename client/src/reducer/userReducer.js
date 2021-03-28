@@ -6,6 +6,7 @@ import {
   LOGIN_FAIL,
   LOGOUT,
 } from '../utils/actions';
+import { warningNotification } from '../components/Notification';
 
 const user_reducer = (state, action) => {
   const { type, payload } = action;
@@ -31,6 +32,7 @@ const user_reducer = (state, action) => {
     case LOGIN_FAIL:
     case AUTH_ERROR:
     case LOGOUT:
+      warningNotification();
       localStorage.removeItem('token');
       return {
         ...state,

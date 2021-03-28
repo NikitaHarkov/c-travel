@@ -1,8 +1,9 @@
 import React from 'react';
-import { Drawer, Form, Button, Col, Row, Input, DatePicker } from 'antd';
+import { Drawer, Form, Button, Col, Row, Input } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { useContractContext } from '../../context/contractContext';
 import { formatDate } from '../../utils/helpers';
+import { errorNotification } from '../Notification';
 
 const DrawerForm = ({
   isVisible,
@@ -15,6 +16,7 @@ const DrawerForm = ({
     singleContract,
     createContract,
     updateContract,
+    errors,
   } = useContractContext();
 
   const {
@@ -50,6 +52,10 @@ const DrawerForm = ({
     } else {
       createContract(formData);
     }
+    if (errors === []) {
+      closeDrawer();
+    }
+
     //TODO if no errors closeDrawer();
   };
 

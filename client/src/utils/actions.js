@@ -1,3 +1,5 @@
+export const SET_ERRORS = 'SET_ERRORS';
+export const REMOVE_ERRORS = 'REMOVE_ERRORS';
 //Auth actions
 export const LOADING = 'LOADING';
 export const USER_LOADED = 'USER_LOADED';
