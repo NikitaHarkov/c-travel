@@ -2,8 +2,6 @@ import React from 'react';
 import { Drawer, Form, Button, Col, Row, Input } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { useContractContext } from '../../context/contractContext';
-import { formatDate } from '../../utils/helpers';
-import { errorNotification } from '../Notification';
 
 const DrawerForm = ({
   isVisible,
@@ -55,8 +53,6 @@ const DrawerForm = ({
     if (errors === []) {
       closeDrawer();
     }
-
-    //TODO if no errors closeDrawer();
   };
 
   return (
