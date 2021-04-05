@@ -18,6 +18,7 @@ import {
 const ContractContext = React.createContext();
 
 const initialState = {
+  amount: 0,
   contracts: [],
   loading: true,
   singleContract: null,

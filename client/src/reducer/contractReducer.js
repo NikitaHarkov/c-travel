@@ -22,8 +22,8 @@ const contract_reducer = (state, action) => {
   let singleContract;
   switch (type) {
     case LOAD_CONTRACTS:
-      contracts = parseResponse(payload);
-      return { ...state, contracts, loading: false };
+      contracts = parseResponse(payload.data);
+      return { ...state, amount: payload.amount, contracts, loading: false };
     case SET_CONTRACT:
       const { date, validity } = payload;
       return {

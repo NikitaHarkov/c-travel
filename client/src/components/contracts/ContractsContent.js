@@ -12,6 +12,7 @@ const ContractsContent = ({ isVisible, showDrawer, closeDrawer }) => {
     fetchContracts,
     queryContracts,
     singleContract,
+    amount,
   } = useContractContext();
   const { Search } = Input;
 
@@ -68,6 +69,7 @@ const ContractsContent = ({ isVisible, showDrawer, closeDrawer }) => {
         size='large'
         onSearch={searchHandler}
       />
+      <h3>Количество договоров: {amount}</h3>
       <DrawerForm
         isVisible={isVisible}
         showDrawer={showDrawer}

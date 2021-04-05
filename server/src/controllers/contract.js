@@ -16,7 +16,11 @@ export const getContracts = (req, res) => {
   }
   Contract.find(query)
     .sort({ date: -1 })
-    .then(results => res.json(results))
+    .then(results => {
+      const amount = results.length;
+      const data = results;
+      res.json({ amount, data });
+    })
     .catch(err => {
       console.error(err.message);
       return res.status(500).json({ message: 'Server Error' });
