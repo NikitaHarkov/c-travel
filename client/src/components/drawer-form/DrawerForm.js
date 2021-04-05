@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Drawer, Form, Button, Col, Row, Input } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { useContractContext } from '../../context/contractContext';
@@ -50,10 +50,13 @@ const DrawerForm = ({
     } else {
       createContract(formData);
     }
+  };
+
+  useEffect(() => {
     if (errors === []) {
       closeDrawer();
     }
-  };
+  }, []);
 
   return (
     <>

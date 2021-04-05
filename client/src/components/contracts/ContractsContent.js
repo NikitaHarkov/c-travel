@@ -39,7 +39,7 @@ const ContractsContent = ({ isVisible, showDrawer, closeDrawer }) => {
   useEffect(() => {
     if (singleContract !== null) {
       setFormData({
-        id: singleContract.key,
+        id: singleContract.key || singleContract._id,
         date: singleContract.date,
         contractNumber: singleContract.contractNumber,
         fullName: singleContract.fullName,

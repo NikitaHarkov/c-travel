@@ -73,7 +73,10 @@ export const ContractProvider = ({ children }) => {
   const createContract = form => {
     axios
       .post('/contracts', form)
-      .then(res => dispatch({ type: CREATE_CONTRACT, payload: res }))
+      .then(res => {
+        dispatch({ type: CREATE_CONTRACT });
+        setSingleContract(res.data);
+      })
       .catch(errors => setErrors(errors));
   };
 
