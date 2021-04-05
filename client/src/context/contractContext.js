@@ -58,6 +58,7 @@ export const ContractProvider = ({ children }) => {
   };
 
   const getSingleContract = id => {
+    console.log('getting');
     axios
       .get(`/contracts/${id}`)
       .then(dispatch({ type: PRELOAD_CONTRACT }))

@@ -16,13 +16,13 @@ const contractRoute = app => {
       [
         auth,
         [
-          body('date', 'Date is required').notEmpty(),
-          body('contractNumber', 'Contract Number is required').notEmpty(),
-          body('fullName', 'Name is required').notEmpty(),
-          body('summ', 'Summ is required').notEmpty().isNumeric(),
-          body('validity', 'Dates are required').notEmpty(),
-          body('phone', 'Phone is required').notEmpty(),
-          body('email', 'Email is required').notEmpty().isEmail(),
+          body('date', 'Дата заключения обязательна').notEmpty(),
+          body('contractNumber', 'Номер договора обязателен').notEmpty(),
+          body('fullName', 'Имя обязательно').notEmpty(),
+          body('summ', 'Сумма обязательна').notEmpty().isNumeric(),
+          body('validity', 'Дата оканчания обязательна').notEmpty(),
+          body('phone', 'Телефон обязателен').notEmpty(),
+          body('email', 'Эмайл обязателен').notEmpty().isEmail(),
         ],
       ],
       saveContract

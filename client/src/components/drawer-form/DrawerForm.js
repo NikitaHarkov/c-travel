@@ -1,7 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Drawer, Form, Button, Col, Row, Input } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { useContractContext } from '../../context/contractContext';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const DrawerForm = ({
   isVisible,
@@ -14,7 +16,6 @@ const DrawerForm = ({
     singleContract,
     createContract,
     updateContract,
-    errors,
   } = useContractContext();
 
   const {
@@ -38,7 +39,7 @@ const DrawerForm = ({
 
   const changeHandler = (e, dateInput = '') => {
     if (dateInput !== '') {
-      setFormData({ ...formData, [dateInput]: e.target.valueAsDate });
+      setFormData({ ...formData, [dateInput]: e });
     } else {
       setFormData({ ...formData, [e.target.name]: e.target.value });
     }
@@ -51,12 +52,6 @@ const DrawerForm = ({
       createContract(formData);
     }
   };
-
-  useEffect(() => {
-    if (errors === []) {
-      closeDrawer();
-    }
-  }, []);
 
   return (
     <>
@@ -83,6 +78,7 @@ const DrawerForm = ({
                   value={fullName}
                   onChange={changeHandler}
                   placeholder='Введите имя'
+                  required
                 />
               </div>
             </Col>
@@ -91,12 +87,14 @@ const DrawerForm = ({
                 <label name='date' className='form-label'>
                   Дата заключения
                 </label>
-                <input
+                <br />
+                <DatePicker
                   className='form-control'
-                  type='date'
-                  name='date'
-                  value={date}
+                  selected={date}
+                  dateFormat='dd.MM.yyyy'
                   onChange={e => changeHandler(e, 'date')}
+                  placeholderText='День/Месяц/Год'
+                  required
                 />
               </div>
             </Col>
@@ -113,6 +111,7 @@ const DrawerForm = ({
                   value={contractNumber}
                   onChange={changeHandler}
                   placeholder='Введите номер договора'
+                  required
                 />
               </div>
             </Col>
@@ -128,6 +127,7 @@ const DrawerForm = ({
                   value={summ}
                   onChange={changeHandler}
                   placeholder='Введите сумму'
+                  required
                 />
               </div>
             </Col>
@@ -144,6 +144,7 @@ const DrawerForm = ({
                   value={phone}
                   onChange={changeHandler}
                   placeholder='Введите телефон'
+                  required
                 />
               </div>
             </Col>
@@ -152,13 +153,14 @@ const DrawerForm = ({
                 <label name='date' className='form-label'>
                   Дата окончания
                 </label>
-                <input
-                  type='date'
+                <br />
+                <DatePicker
                   className='form-control'
-                  name='validity'
-                  value={validity}
+                  selected={validity}
+                  dateFormat='dd.MM.yyyy'
                   onChange={e => changeHandler(e, 'validity')}
-                  placeholder='Выберите дату'
+                  placeholderText='День/Месяц/Год'
+                  required
                 />
               </div>
             </Col>
@@ -176,6 +178,7 @@ const DrawerForm = ({
                   value={email}
                   onChange={changeHandler}
                   placeholder='example@example.ee'
+                  required
                 />
               </div>
             </Col>

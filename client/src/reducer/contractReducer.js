@@ -25,13 +25,25 @@ const contract_reducer = (state, action) => {
       contracts = parseResponse(payload);
       return { ...state, contracts, loading: false };
     case SET_CONTRACT:
-      return { ...state, singleContract: payload };
+      const { date, validity } = payload;
+      return {
+        ...state,
+        singleContract: {
+          ...payload,
+          date: new Date(date),
+          validity: new Date(validity),
+        },
+      };
     case CLEAR_CONTRACT_STATE:
     case PRELOAD_CONTRACT:
       return { ...state, singleContract: null };
     case LOAD_SINGLE_CONTRACT:
       singleContract = parseResponse(payload);
-      return { ...state, singleContract, loading: false };
+      return {
+        ...state,
+        singleContract,
+        loading: false,
+      };
     case CREATE_CONTRACT:
     case UPDATE_CONTRACT:
       successNotification();

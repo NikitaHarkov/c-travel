@@ -9,15 +9,15 @@ const openNotification = (type, message, description) => {
 };
 
 export const successNotification = () => {
-  openNotification('success', 'Success');
+  openNotification('success', 'Успешно');
 };
 
 export const warningNotification = () => {
-  openNotification('warning', 'Failed', 'Bad credentials');
+  openNotification('warning', 'Ошибка', 'Учетная запись не существует');
 };
 
 export const errorNotification = array => {
   array.map(error => {
-    return openNotification('error', 'Error', error.msg);
+    return openNotification('error', 'Ошибка', error.msg);
   });
 };
