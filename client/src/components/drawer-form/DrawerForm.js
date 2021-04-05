@@ -78,7 +78,6 @@ const DrawerForm = ({
                   value={fullName}
                   onChange={changeHandler}
                   placeholder='Введите имя'
-                  required
                 />
               </div>
             </Col>
@@ -94,7 +93,6 @@ const DrawerForm = ({
                   dateFormat='dd.MM.yyyy'
                   onChange={e => changeHandler(e, 'date')}
                   placeholderText='День/Месяц/Год'
-                  required
                 />
               </div>
             </Col>
@@ -111,7 +109,6 @@ const DrawerForm = ({
                   value={contractNumber}
                   onChange={changeHandler}
                   placeholder='Введите номер договора'
-                  required
                 />
               </div>
             </Col>
@@ -127,7 +124,6 @@ const DrawerForm = ({
                   value={summ}
                   onChange={changeHandler}
                   placeholder='Введите сумму'
-                  required
                 />
               </div>
             </Col>
@@ -144,7 +140,6 @@ const DrawerForm = ({
                   value={phone}
                   onChange={changeHandler}
                   placeholder='Введите телефон'
-                  required
                 />
               </div>
             </Col>
@@ -160,7 +155,6 @@ const DrawerForm = ({
                   dateFormat='dd.MM.yyyy'
                   onChange={e => changeHandler(e, 'validity')}
                   placeholderText='День/Месяц/Год'
-                  required
                 />
               </div>
             </Col>
@@ -178,7 +172,6 @@ const DrawerForm = ({
                   value={email}
                   onChange={changeHandler}
                   placeholder='example@example.ee'
-                  required
                 />
               </div>
             </Col>
