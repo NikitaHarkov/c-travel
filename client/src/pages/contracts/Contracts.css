@@ -33,7 +33,7 @@
 }
 
 .ant-btn {
-  float: inline-end;
+  float: right;
 }
 
 [data-theme='dark'] .site-layout-content {

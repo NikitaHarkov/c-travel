@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import bcrypt from 'bcrypt';
+import bcryptjs from 'bcryptjs';
 
 const Schema = mongoose.Schema;
 
@@ -20,5 +20,5 @@ export const UserSchema = new Schema({
 });
 
 UserSchema.methods.comparePassword = (password, hashPassword) => {
-  return bcrypt.compareSync(password, hashPassword);
+  return bcryptjs.compare(password, hashPassword);
 };
