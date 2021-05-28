@@ -9,6 +9,7 @@ import {
   CREATE_CONTRACT,
   UPDATE_CONTRACT,
   SET_ERRORS,
+  DELETE_CONTRACT,
 } from '../utils/actions';
 import { renameProp } from '../utils/helpers';
 import {
@@ -51,6 +52,10 @@ const contract_reducer = (state, action) => {
         ...state,
         loading: true,
       };
+    case DELETE_CONTRACT:
+      contracts = state.contracts.filter(contract => contract.key !== payload);
+      const amount = contracts.length;
+      return { ...state, contracts, amount };
     case LOAD_ERROR:
       return { ...state, singleContract: null, loading: false };
     case LOGOUT:

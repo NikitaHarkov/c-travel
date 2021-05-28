@@ -13,6 +13,7 @@ import {
   SET_ERRORS,
   REMOVE_ERRORS,
   LOGOUT,
+  DELETE_CONTRACT,
 } from '../utils/actions';
 
 const ContractContext = React.createContext();
@@ -85,8 +86,15 @@ export const ContractProvider = ({ children }) => {
   const updateContract = form => {
     axios
       .put(`/contracts/${form.id}`, form)
-      .then(res => dispatch({ type: UPDATE_CONTRACT, payload: res }))
+      .then(() => dispatch({ type: UPDATE_CONTRACT }))
       .catch(err => setErrors(err));
+  };
+
+  const deleteContract = id => {
+    axios
+      .delete(`/contracts/${id}`)
+      .then(() => dispatch({ type: DELETE_CONTRACT, payload: id }))
+      .catch(err => console.log(err));
   };
 
   const clearContractStateByLogout = () => {
@@ -109,6 +117,7 @@ export const ContractProvider = ({ children }) => {
         createContract,
         clearContractStateByLogout,
         updateContract,
+        deleteContract,
       }}
     >
       {children}

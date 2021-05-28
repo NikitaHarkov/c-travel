@@ -29,7 +29,12 @@ const ContractsContent = ({ isVisible, showDrawer, closeDrawer }) => {
   });
 
   const searchHandler = query => {
-    queryContracts(query);
+    if (query.length === 0) {
+      queryContracts(query);
+    }
+    if (query.length >= 3) {
+      queryContracts(query);
+    }
   };
 
   useEffect(() => {
@@ -65,9 +70,9 @@ const ContractsContent = ({ isVisible, showDrawer, closeDrawer }) => {
         style={{ widows: 200 }}
         placeholder='Номер договора/Имя'
         allowClear
-        enterButton='Найти'
         size='large'
         onSearch={searchHandler}
+        onChange={e => searchHandler(e.target.value)}
       />
       <h3>Количество договоров: {amount}</h3>
       <DrawerForm

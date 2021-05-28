@@ -5,6 +5,7 @@ import {
   saveContract,
   changeContract,
   deleteContract,
+  downloadEmails,
 } from '../../controllers/contract';
 import auth from '../../middleware/auth';
 
@@ -47,6 +48,8 @@ const contractRoute = app => {
       ],
       changeContract
     );
+
+  app.route('/emails-excel').get(auth, downloadEmails);
 };
 
 export default contractRoute;

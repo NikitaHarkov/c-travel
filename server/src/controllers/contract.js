@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import { validationResult } from 'express-validator';
 import { ContractSchema } from '../models/Contract';
+import excel from 'exceljs';
 
 const Contract = mongoose.model('contract', ContractSchema);
 
@@ -105,5 +106,36 @@ export const deleteContract = (req, res) => {
       console.error(err.message);
       return res.status(500).json({ message: 'Server Error' });
     }
+  });
+};
+
+export const downloadEmails = (req, res) => {
+  let emails = [];
+  let workbook = new excel.Workbook();
+  let worksheet = workbook.addWorksheet('Emails');
+  worksheet.columns = [
+    {
+      header: 'Email',
+      key: 'email',
+      width: 50,
+    },
+  ];
+  worksheet.getRow(1).font = { bold: true };
+
+  Contract.find().then(results => {
+    worksheet.addRows(results);
+    res.setHeader('Access-Control-Expose-Headers', 'Content-Disposition');
+    res.setHeader(
+      'Content-Type',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    );
+    res.setHeader(
+      'Content-Disposition',
+      'attachment; filename=' + 'clubs-travel-emails.xlsx'
+    );
+
+    return workbook.xlsx.write(res).then(() => {
+      res.status(200).end();
+    });
   });
 };

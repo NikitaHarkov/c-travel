@@ -1,9 +1,12 @@
 import React from 'react';
-import { Drawer, Form, Button, Col, Row, Input } from 'antd';
+import { Drawer, Form, Button, Col, Row, Input, Popconfirm } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { useContractContext } from '../../context/contractContext';
 import DatePicker from 'react-datepicker';
+import styled from 'styled-components';
 import 'react-datepicker/dist/react-datepicker.css';
+import axios from 'axios';
+import FileDownload from 'js-file-download';
 
 const DrawerForm = ({
   isVisible,
@@ -12,11 +15,8 @@ const DrawerForm = ({
   formData,
   setFormData,
 }) => {
-  const {
-    singleContract,
-    createContract,
-    updateContract,
-  } = useContractContext();
+  const { singleContract, createContract, updateContract, deleteContract } =
+    useContractContext();
 
   const {
     id,
@@ -45,6 +45,21 @@ const DrawerForm = ({
     }
   };
 
+  const deleteHandler = () => {
+    deleteContract(id);
+    closeDrawer();
+  };
+
+  const downloadEmails = () => {
+    axios({
+      url: '/emails-excel',
+      method: 'GET',
+      responseType: 'blob', // Important
+    }).then(response => {
+      FileDownload(response.data, 'clubs-travel-emails.xlsx');
+    });
+  };
+
   const submitHandler = e => {
     if (id !== '') {
       updateContract(formData);
@@ -57,6 +72,17 @@ const DrawerForm = ({
     <>
       <Button type='primary' onClick={showDrawer}>
         <PlusOutlined /> Добавить новый контракт
+      </Button>
+      <Button
+        type='primary'
+        onClick={() => downloadEmails()}
+        style={{
+          background: 'green',
+          borderColor: 'yellowgreen',
+          float: 'left',
+        }}
+      >
+        Excel
       </Button>
       <Drawer
         title={`${singleContract ? 'Изменить' : 'Добавить новый'} контракт`}
@@ -192,16 +218,31 @@ const DrawerForm = ({
               </div>
             </Col>
           </Row>
+
           <Button onClick={clearForm} style={{ marginRight: 8 }}>
             Отменить
           </Button>
           <Button type='primary' htmlType='submit'>
             Сохранить
           </Button>
+          {id && (
+            <Wrapper className='delete-button'>
+              <Popconfirm title='Удалить?' onConfirm={() => deleteHandler()}>
+                <Button type='primary' danger>
+                  Удалить
+                </Button>
+              </Popconfirm>
+            </Wrapper>
+          )}
         </Form>
       </Drawer>
     </>
   );
 };
+
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: start;
+`;
 
 export default DrawerForm;
