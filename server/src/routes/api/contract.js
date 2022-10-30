@@ -15,8 +15,8 @@ const contractRoute = app => {
     .get(auth, getContracts)
     .post(
       [
-        auth,
-        [
+        auth
+        /*[
           body('date', 'Дата заключения обязательна').notEmpty(),
           body('contractNumber', 'Номер договора обязателен').notEmpty(),
           body('fullName', 'Имя обязательно').notEmpty(),
@@ -24,7 +24,7 @@ const contractRoute = app => {
           body('validity', 'Дата оканчания обязательна').notEmpty(),
           body('phone', 'Телефон обязателен').notEmpty(),
           body('email', 'Эмайл обязателен').notEmpty().isEmail(),
-        ],
+        ],*/
       ],
       saveContract
     );
@@ -35,8 +35,8 @@ const contractRoute = app => {
     .delete(auth, deleteContract)
     .put(
       [
-        auth,
-        [
+        auth
+        /*[
           body('date', 'Date is required').notEmpty(),
           body('contractNumber', 'Contract Number is required').notEmpty(),
           body('fullName', 'Name is required').notEmpty(),
@@ -44,7 +44,7 @@ const contractRoute = app => {
           body('validity', 'Dates are required').notEmpty(),
           body('phone', 'Phone is required').notEmpty(),
           body('email', 'Email is required').notEmpty().isEmail(),
-        ],
+        ],*/
       ],
       changeContract
     );

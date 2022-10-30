@@ -41,6 +41,7 @@ export const saveContract = (req, res) => {
       validity: req.body.validity,
       phone: req.body.phone,
       email: req.body.email,
+      status: req.body.status,
       comment: req.body.comment,
     });
 
@@ -82,6 +83,7 @@ export const changeContract = (req, res) => {
         validity: req.body.validity,
         phone: req.body.phone,
         email: req.body.email,
+        status: req.body.status,
         comment: req.body.comment,
       },
       (err, result) => {
@@ -110,7 +112,6 @@ export const deleteContract = (req, res) => {
 };
 
 export const downloadEmails = (req, res) => {
-  let emails = [];
   let workbook = new excel.Workbook();
   let worksheet = workbook.addWorksheet('Emails');
   worksheet.columns = [
