@@ -25,6 +25,7 @@ const ContractsContent = ({ isVisible, showDrawer, closeDrawer }) => {
     validity: '',
     phone: '',
     email: '',
+    status: '',
     comment: '',
   });
 
@@ -53,6 +54,7 @@ const ContractsContent = ({ isVisible, showDrawer, closeDrawer }) => {
         validity: singleContract.validity,
         phone: singleContract.phone,
         email: singleContract.email,
+        status: singleContract.status,
         comment: singleContract.comment,
       });
       showDrawer();

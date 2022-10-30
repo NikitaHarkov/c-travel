@@ -27,6 +27,7 @@ const DrawerForm = ({
     validity,
     phone,
     email,
+    status,
     comment,
   } = formData;
 
@@ -198,6 +199,22 @@ const DrawerForm = ({
                   value={email}
                   onChange={changeHandler}
                   placeholder='example@example.ee'
+                />
+              </div>
+            </Col>
+          </Row>
+          <Row gutter={16}>
+            <Col span={24}>
+              <div className='col-md-12'>
+                <label name='status' className='form-label'>
+                  Статус
+                </label>
+                <input
+                  type='status'
+                  className='form-control'
+                  name='status'
+                  value={status}
+                  onChange={changeHandler}
                 />
               </div>
             </Col>

@@ -54,6 +54,12 @@ export const columns = [
     width: 250,
   },
   {
+    title: 'Статус',
+    dataIndex: 'status',
+    key: 'status',
+    width: 250,
+  },
+  {
     title: 'Комментарий',
     dataIndex: 'comment',
     key: 'comment',
